@@ -65,7 +65,7 @@ class KandunganGizi(models.Model):
 
 
 class KonversiSatuan(models.Model):
-    bahan_baku = models.ForeignKey(
+    bahan_baku = models.OneToOneField(
         BahanBaku, 
         on_delete=models.CASCADE, 
         related_name='konversi_satuan', 
