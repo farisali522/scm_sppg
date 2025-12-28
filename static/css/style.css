@@ -1,0 +1,20 @@
+/* File CSS Utama SCM SPPG */
+
+/* Font Inter sudah dimuat di base.html melalui Google Fonts */
+
+/* Anda bisa menambahkan CSS kustom di sini agar base.html tetap bersih */
+.text-brand {
+    color: #f59e0b; /* Warna orange/warning kustom */
+}
+
+.bg-brand {
+    background-color: #f59e0b;
+}
+
+.hover\:text-brand:hover {
+    color: #d97706; /* Warna saat hover */
+}
+
+.hover\:bg-brand-dark:hover {
+    background-color: #d97706;
+}

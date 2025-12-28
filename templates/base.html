@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SCM SPPG | Tailwind{% endblock %}</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS Kustom Eksternal -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        // Konfigurasi Tailwind untuk tema kustom jika diperlukan
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: '#f59e0b', // Warna orange/warning
+                    }
+                }
+            }
+        }
+    </script>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+
+    <!-- Navbar Tailwind -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fas fa-truck-moving text-brand text-2xl"></i>
+                        <span class="text-xl font-bold text-gray-800">SCM SPPG</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/"
+                        class="text-gray-600 hover:text-brand px-3 py-2 text-sm font-medium transition duration-150">Home</a>
+                    <a href="/admin/"
+                        class="bg-brand hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition duration-150">Admin
+                        Panel</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-gray-600 hover:text-brand">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        {% block content %}
+        <div class="flex flex-col items-center justify-center mt-12 text-center">
+            <div class="bg-white p-10 rounded-2xl shadow-xl max-w-2xl border border-gray-100">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                    Selamat Datang di <span class="text-brand">SCM SPPG</span>
+                </h1>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    Aplikasi ini sekarang menggunakan <span class="font-bold text-sky-500">Tailwind CSS</span>.
+                    Desain lebih fleksibel, performa lebih ringan, dan sangat mudah dikustomisasi.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/admin/"
+                        class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-brand hover:bg-yellow-600 shadow-md transform hover:-translate-y-1 transition duration-200">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Masuk Admin
+                    </a>
+                    <a href="#"
+                        class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 shadow-sm transform hover:-translate-y-1 transition duration-200">
+                        <i class="fas fa-book mr-2"></i> Pelajari Tailwind
+                    </a>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <i class="fas fa-bolt text-brand mb-3 text-xl"></i>
+                    <h3 class="font-bold text-gray-800">Sangat Cepat</h3>
+                    <p class="text-sm text-gray-500">Ukuran file minimalis untuk loading super kencang.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <i class="fas fa-magic text-brand mb-3 text-xl"></i>
+                    <h3 class="font-bold text-gray-800">Kustomisasi Luas</h3>
+                    <p class="text-sm text-gray-500">Bebas mengatur desain tanpa batas standar framework.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <i class="fas fa-mobile-alt text-brand mb-3 text-xl"></i>
+                    <h3 class="font-bold text-gray-800">Responsive</h3>
+                    <p class="text-sm text-gray-500">Tampilan sempurna di HP, Tablet, maupun Desktop.</p>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-500 text-sm italic">
+                &copy; 2025 <span class="font-semibold">PT. SPPG Indonesia</span>. Build with <i
+                    class="fas fa-heart text-red-500"></i> and Tailwind.
+            </p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
