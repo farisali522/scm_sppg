@@ -1,25 +1,20 @@
 from django.contrib import admin
-from .models import BahanBaku, KandunganGizi, StandarGizi, Resep, BahanResep, KonversiSatuan, RencanaMenu, RencanaMenuDetail
+from .models import (
+    BahanBaku, KandunganGizi, StandarGizi, 
+    Resep, BahanResep, KonversiSatuan, 
+    RencanaMenu, RencanaMenuDetail
+)
 
-# --- RENCANA MENU INLINE ---
-class RencanaMenuDetailInline(admin.TabularInline):
-    model = RencanaMenuDetail
-    extra = 5
-    autocomplete_fields = ['resep']
+# =============================================================================
+# 1. BAHAN BAKU & NUTRISI (INLINES)
+# =============================================================================
 
-@admin.register(RencanaMenu)
-class RencanaMenuAdmin(admin.ModelAdmin):
-    list_display = ('tanggal', 'standar_gizi', 'get_total_energi')
-    list_filter = ('tanggal', 'standar_gizi')
-    search_fields = ('tanggal',)
-    inlines = [RencanaMenuDetailInline]
+class KonversiSatuanInline(admin.TabularInline):
+    model = KonversiSatuan
+    extra = 1
+    # Karena 1-to-1, kita batasi agar tidak bisa tambah banyak jika sudah ada
+    max_num = 1 
 
-    def get_total_energi(self, obj):
-        return f"{obj.total_energi:.2f} Kkal"
-    get_total_energi.short_description = 'Total Energi'
-
-
-# --- BAHAN BAKU & GIZI ---
 class KandunganGiziInline(admin.StackedInline):
     model = KandunganGizi
     can_delete = False
@@ -30,25 +25,18 @@ class BahanBakuAdmin(admin.ModelAdmin):
     list_display = ('kode_bahan', 'nama_bahan', 'kategori', 'satuan_dasar', 'estimasi_harga', 'masa_simpan')
     search_fields = ('kode_bahan', 'nama_bahan')
     list_filter = ('kategori', 'satuan_dasar', 'masa_simpan')
-    inlines = (KandunganGiziInline,)
-
-@admin.register(KandunganGizi)
-class KandunganGiziAdmin(admin.ModelAdmin):
-    list_display = ('bahan_baku', 'energi', 'protein', 'lemak', 'karbohidrat', 'persen_bdd')
-    search_fields = ('bahan_baku__nama_bahan', 'bahan_baku__kode_bahan')
+    inlines = (KonversiSatuanInline, KandunganGiziInline)
 
 
-# --- STANDAR GIZI ---
+# =============================================================================
+# 2. STANDAR GIZI (TARGET AKG)
+# =============================================================================
+
 @admin.register(StandarGizi)
 class StandarGiziAdmin(admin.ModelAdmin):
     list_display = (
-        'kelompok_sasaran', 
-        'waktu_makan', 
-        'rujukan_akg',
-        'display_energi', 
-        'display_protein', 
-        'display_lemak', 
-        'display_karbo', 
+        'kelompok_sasaran', 'waktu_makan', 'rujukan_akg',
+        'display_energi', 'display_protein', 'display_lemak', 'display_karbo', 
         'pagu_belanja'
     )
     search_fields = ('kelompok_sasaran',)
@@ -68,14 +56,12 @@ class StandarGiziAdmin(admin.ModelAdmin):
 
     def display_karbo(self, obj):
         return f"{obj.karbo_min} - {obj.karbo_max}"
-    display_karbo.short_description = 'Karbohidrat (g)'
+    display_karbo.short_description = 'Karbo (g)'
 
 
-# --- KONVERSI & RESEP ---
-@admin.register(KonversiSatuan)
-class KonversiSatuanAdmin(admin.ModelAdmin):
-    list_display = ('nama_satuan', 'nilai_gram', 'bahan_baku')
-    search_fields = ('nama_satuan', 'bahan_baku__nama_bahan')
+# =============================================================================
+# 3. RESEP & KOMPOSISI
+# =============================================================================
 
 class BahanResepInline(admin.TabularInline):
     model = BahanResep
@@ -85,6 +71,7 @@ class BahanResepInline(admin.TabularInline):
 
 @admin.register(Resep)
 class ResepAdmin(admin.ModelAdmin):
+    list_display = ('nama_masakan', 'kategori_masakan', 'display_energi', 'display_protein', 'display_lemak', 'display_karbo')
     search_fields = ('nama_masakan',)
     list_filter = ('kategori_masakan',)
     inlines = [BahanResepInline]
@@ -105,4 +92,28 @@ class ResepAdmin(admin.ModelAdmin):
         return f"{obj.total_karbohidrat:.2f} g"
     display_karbo.short_description = 'Karbo'
 
-    list_display = ('nama_masakan', 'kategori_masakan', 'display_energi', 'display_protein', 'display_lemak', 'display_karbo')
+
+# =============================================================================
+# 4. RENCANA MENU (HEADER-DETAIL)
+# =============================================================================
+
+class RencanaMenuDetailInline(admin.TabularInline):
+    model = RencanaMenuDetail
+    extra = 5
+    autocomplete_fields = ['resep']
+
+@admin.register(RencanaMenu)
+class RencanaMenuAdmin(admin.ModelAdmin):
+    list_display = ('tanggal', 'standar_gizi', 'get_total_energi', 'get_total_protein')
+    list_filter = ('tanggal', 'standar_gizi')
+    search_fields = ('tanggal',)
+    date_hierarchy = 'tanggal'
+    inlines = [RencanaMenuDetailInline]
+
+    def get_total_energi(self, obj):
+        return f"{obj.total_energi:.2f} Kkal"
+    get_total_energi.short_description = 'Energi porsi'
+
+    def get_total_protein(self, obj):
+        return f"{obj.total_protein:.2f} g"
+    get_total_protein.short_description = 'Protein porsi'
