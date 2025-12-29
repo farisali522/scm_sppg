@@ -136,92 +136,20 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# config/settings.py (Tambahkan di bagian paling bawah)
-
+# Jazzmin Settings (Default dengan sedikit kustomisasi)
 JAZZMIN_SETTINGS = {
-    # == Judul & Header ==
     "site_title": "SCM SPPG Admin",
     "site_header": "SCM SPPG",
-    "site_brand": "System SCM",
+    "site_brand": "SCM SPPG",
     "welcome_sign": "Selamat Datang di Panel Admin SCM SPPG",
-    "copyright": "SPPG XXX",
-    "search_model": ["auth.User", "auth.Group"],
-    "user_avatar": None, # "profile_photo" (nama field di model User)
-
-    # == Navigasi Atas (Top Menu) ==
-    "topmenu_links": [
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"name": "Support", "url": "https://google.com", "new_window": True},
-        # Contoh Dropdown di Atas:
-        # {"name": "Laporan", "links": [
-        #     {"name": "Laporan Bulanan", "url": "/admin/laporan-bulan/"},
-        #     {"name": "Laporan Tahunan", "url": "/admin/laporan-tahun/"},
-        # ]},
-    ],
-
-    # == Sidebar (Menu Samping) ==
-    "show_sidebar": True,
-    "navigation_expanded": False, # Set ke False agar menu menjadi dropdown (tidak terbuka otomatis)
+    "copyright": "SPPG",
     
-    # Custom links untuk app tertentu
-    "custom_links": {
-        "auth": [
-            # {"name": "Audit Log", "url": "admin:index", "icon": "fas fa-history", "permissions": ["auth.view_user"]},
-        ],
-    },
-
-    # Ikon untuk App dan Model (Font Awesome)
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        # --- Daftar Ikon SCM & Umum (Tinggal Copy-Paste) ---
-        # Master Data:  fas fa-database, fas fa-layer-group, fas fa-table
-        # Pengguna:     fas fa-user-tie, fas fa-user-shield, fas fa-users
-        # Logistik:     fas fa-truck, fas fa-shipping-fast, fas fa-boxes
-        # Gudang:       fas fa-warehouse, fas fa-pallet, fas fa-inventory
-        # Keuangan:     fas fa-money-bill-wave, fas fa-file-invoice-dollar
-        # Laporan:      fas fa-chart-line, fas fa-file-alt, fas fa-print
-        # Keranjang/Order: fas fa-shopping-cart, fas fa-clipboard-list
-        # Lokasi:       fas fa-map-marker-alt, fas fa-city
-        # Alat/Setting: fas fa-cogs, fas fa-tools, fas fa-wrench
-    },
-
-    # Urutan Menu
-    "order_with_respect_to": ["auth", "books", "orders"],
-
-    # Sembunyikan App/Model tertentu
-    # "hide_apps": ["auth"],
-    # "hide_models": ["auth.user"],
-
-    "site_logo_classes": "img-circle",
+    # Tampilkan UI Customizer (untuk testing tema)
+    "show_ui_builder": True,
 }
 
+# Jazzmin UI Tweaks (Default)
 JAZZMIN_UI_TWEAKS = {
-    # == Gaya Sidebar ==
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": True, # Indentasi menu anak (lebih rapi untuk dropdown)
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": False,
-    "sidebar_nav_flat_style": False,
-
-    # == Tema (Pilih satu yang aktif) ==
-    "theme": "superhero", # Tema gelap (Aktif)
-    # "theme": "flatly",   # Tema terang & bersih
-    # "theme": "darkly",   # Tema gelap lainnya
-    # "theme": "pulse",    # Tema ungu cerah
-    # "theme": "sandstone",
-    
-    # == Warna Elemen ==
-    "navbar": "navbar-dark",
-    "sidebar": "sidebar-dark-warning",
-    "accent": "accent-warning",
-    
-    # == Pengaturan Body ==
-    "no_navbar_border": True,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "footer_fixed": False,
-    "footer_small_text": True,
+    # Tema bisa diganti nanti via UI Customizer
 }
+
